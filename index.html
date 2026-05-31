@@ -1,36 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>NovaX Study</title>
+  <title>NovaX</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>NovaX Study</h1>
-<p>Train. Improve. Dominate.</p>
+<div class="app">
 
-<!-- START -->
-<button onclick="startStudy()">Start Studying</button>
+  <h1>NovaX</h1>
+  <p class="subtitle">Study smarter. Improve daily.</p>
 
-<!-- QUIZ -->
-<div id="quiz" style="display:none;">
-  <h2>Question</h2>
-  <p id="question">d/dx (x²) = ?</p>
+  <!-- START -->
+  <button class="primary" onclick="startStudy()">Start Session</button>
 
-  <button onclick="answer('A')">A) x</button>
-  <button onclick="answer('B')">B) 2x</button>
-  <button onclick="answer('C')">C) x²</button>
+  <!-- QUIZ -->
+  <div id="quiz" class="card hidden">
+    <h2 id="question">d/dx (x²) = ?</h2>
+
+    <button onclick="answer('A')">A) x</button>
+    <button onclick="answer('B')">B) 2x</button>
+    <button onclick="answer('C')">C) x²</button>
+  </div>
+
+  <!-- XP -->
+  <div class="card">
+    <h3>XP</h3>
+    <div class="xp-bar">
+      <div id="xp-bar-fill"></div>
+    </div>
+    <p><span id="xp">0</span> XP</p>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div class="card">
+    <h3>Leaderboard</h3>
+    <div id="leaderboard"></div>
+  </div>
+
 </div>
 
-<!-- XP -->
-<h2>Your XP: <span id="xp">0</span></h2>
-
-<!-- LEADERBOARD -->
-<h2>Leaderboard</h2>
-<div id="leaderboard"></div>
-
 <script src="./script.js"></script>
-
 </body>
 </html>
