@@ -1,5 +1,6 @@
 const API_URL = "https://novax-study.onrender.com";
 
+// create user when button clicked
 async function startStudy(){
   try {
     const res = await fetch(API_URL + "/user", {
@@ -14,24 +15,21 @@ async function startStudy(){
 
     alert("User created! ID: " + data.id);
 
-    // reload leaderboard after creating user
     loadLeaderboard();
 
   } catch (err) {
-    alert("Error connecting to backend");
+    alert("Backend error");
     console.error(err);
   }
 }
 
+// load leaderboard
 async function loadLeaderboard(){
   try {
     const res = await fetch(API_URL + "/leaderboard");
     const data = await res.json();
 
     const div = document.getElementById("leaderboard");
-
-    if (!div) return; // prevents crash if element missing
-
     div.innerHTML = "";
 
     data.forEach(user => {
@@ -41,11 +39,9 @@ async function loadLeaderboard(){
     });
 
   } catch (err) {
-    console.error("Leaderboard error:", err);
+    console.error(err);
   }
 }
 
-// load leaderboard when page opens
+// run when page loads
 loadLeaderboard();
-
-console.log("NovaX Loaded");
