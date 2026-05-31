@@ -1,41 +1,38 @@
-const express = require("express");
-const cors = require("cors");
+const fetch = require("node-fetch");
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+app.get("/question", async (req, res) => {
+  try {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "openai/gpt-3.5-turbo",
+        messages: [
+          {
+            role: "user",
+            content: "ONLY return valid JSON. Create 1 calculus multiple choice question with 3 options. Format: {\"q\":\"...\",\"options\":[\"...\",\"...\",\"...\"],\"answer\":1}"
+          }
+        ]
+      })
+    });
 
-let users = [];
+    const data = await response.json();
+    const text = data.choices[0].message.content;
 
-app.get("/", (req,res)=>{
-  res.json({message:"NovaX API running"});
-});
+    const question = JSON.parse(text);
 
-app.post("/user", (req,res)=>{
-  const user = {
-    id: Date.now(),
-    name: req.body.name,
-    xp: 0
-  };
+    res.json(question);
 
-  users.push(user);
-  res.json(user);
-});
+  } catch (err) {
+    console.log(err);
 
-app.post("/xp", (req,res)=>{
-  const {id, xp} = req.body;
-
-  const user = users.find(u => u.id === id);
-  if(user){
-    user.xp = xp;
+    res.json({
+      q: "Fallback: d/dx(x²)?",
+      options: ["x", "2x", "x²"],
+      answer: 1
+    });
   }
-
-  res.json({success:true});
 });
-
-app.get("/leaderboard", (req,res)=>{
-  res.json(users.sort((a,b)=>b.xp-a.xp));
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, ()=>console.log("Server running"));
