@@ -19,4 +19,9 @@ button{
   padding:12px 20px;
   border-radius:10px;
   cursor:pointer;
+  margin-top:20px;
+}
+
+#leaderboard{
+  margin-top:20px;
 }
