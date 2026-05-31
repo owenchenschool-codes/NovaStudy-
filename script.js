@@ -1,7 +1,12 @@
 const API_URL = "https://novax-study.onrender.com";
 
-// create user when button clicked
+let currentUser = null;
+let xp = 0;
+
+// start app
 async function startStudy(){
+  document.getElementById("quiz").style.display = "block";
+
   try {
     const res = await fetch(API_URL + "/user", {
       method: "POST",
@@ -11,19 +16,31 @@ async function startStudy(){
       body: JSON.stringify({ name: "Student" })
     });
 
-    const data = await res.json();
+    currentUser = await res.json();
+    xp = 0;
 
-    alert("User created! ID: " + data.id);
-
-    loadLeaderboard();
+    alert("Study session started!");
 
   } catch (err) {
     alert("Backend error");
-    console.error(err);
   }
 }
 
-// load leaderboard
+// answer question
+function answer(choice){
+  if(choice === "B"){
+    xp += 10;
+    alert("Correct! +10 XP");
+  } else {
+    alert("Wrong answer");
+  }
+
+  document.getElementById("xp").textContent = xp;
+
+  loadLeaderboard();
+}
+
+// leaderboard
 async function loadLeaderboard(){
   try {
     const res = await fetch(API_URL + "/leaderboard");
@@ -43,5 +60,5 @@ async function loadLeaderboard(){
   }
 }
 
-// run when page loads
+// load on start
 loadLeaderboard();
