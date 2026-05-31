@@ -9,4 +9,14 @@ body{
 
 h1{
   color:#ff3300;
+  font-size:48px;
+}
+
+button{
+  background:#ff3300;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:10px;
+  cursor:pointer;
 }
